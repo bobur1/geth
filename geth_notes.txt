@@ -1,0 +1,129 @@
+geth init .\genesis.json --datadir mychaindata
+
+geth --datadir .\mychaindata\ --networkid 15 --nodiscover --rpc --rpcaddr 127.0.0.1 --rpcport 8545 --rpcapi="db,eth,net,web3,personal,web3"
+
+geth attach ipc:\\.\pipe\geth.ipc
+
+//contract encode abi.
+
+
+personal.newAccount(); // can add some pass in function or just enter and type it manually
+
+eth.accounts
+
+eth.getTransactionReceipt("0x4963b596a5a5aa1cc6dbe0e7f2747072649ccbc824bde4fb914de8b4b1d15b61") // transaction hash in function
+
+eth.getTransaction
+
+eth.getTransactionCount(eth.accounts[0]) // nounce of mined transacrions of that account
+
+eth.getBalance(eth.accounts[0]); // address in function (first in accounts)
+ 
+eth.sendTransaction({from: "0xceee57f2b700c2f37d1476a7974965e149fce2d4", to: "0x7aa4a14286a25e3a275d7a122c23dc3c107a636a", value: "74000000000000000"})
+eth.pendingTransactions
+
+txpool 
+
+eth.sendRawTransaction
+ 
+eth.call 
+
+miner.setEtherbase(eth.accounts[0]); // mining to this account (the first)
+
+// Execute the following command to unlock your account for the next 60s, and execute the sendTransaction command once again.
+web3.personal.unlockAccount(web3.personal.listAccounts[0], null, 60) 
+web3.personal.unlockAccount(web3.eth.coinbase);
+
+
+{
+  blockHash: "0xeaeb5b4dcdfa7a15c9a9090f056092d1865b5a363d872927dd3e40d31449f74c",
+  blockNumber: 44,
+  contractAddress: null,
+  cumulativeGasUsed: 21000,
+  from: "0x6e33cf15e1088038652a64839b7a9e7ac4accd69",
+  gasUsed: 21000,
+  logs: [],
+  logsBloom: "0x00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+  status: "0x1",
+  to: "0x6e33cf15e1088038652a64839b7a9e7ac4accd61",
+  transactionHash: "0x6caf563f2d2c5e6b826b906d8d9294b09435a33bd3d6681d12695d5d5a90e6da",
+  transactionIndex: 0,
+  type: "0x0"
+}
+
+{
+  blockHash: 
+  blockNumber: 
+  contractAddress: 
+  cumulativeGasUsed: The total amount of gas used when this transaction was executed in the block (gas used by previous transactions and this one together)
+  from: 
+  gasUsed: Sum of all the gas used by all transaction in the block.
+  logs: Ethereum allows for logs to make it possible to track various transactions and messages. A contract can explicitly generate a log by defining “events” that it wants to log.
+
+A log entry contains:
+
+the logger’s account address,
+a series of topics that represent various events carried out by this transaction, and
+any data associated with these events.
+  logsBloom: 
+  status: 
+  to: 
+  transactionHash: 
+  transactionIndex: 
+  type: 
+}
+
+Call:
+
+eth.call({from: eth.accounts[0], to: "0x5596F7580f0cb60780b856D01f75ABA794C674F2", data: "0x8c551742"})
+// to -> contract address ; data: functionhashes (look remix near 'abi', generates in compilation)
+
+web3.eth.abi.encodeFunctionSignature('isOwner()');
+FUNCTIONHASHES 
+{
+	"8c551742": "createItem(string,uint256)",
+	"8f32d59b": "isOwner()",
+	"bfb231d2": "items(uint256)",
+	"cd31831e": "triggerDelivery(uint256)",
+	"800fb83f": "triggerPayment(uint256)"
+}
+
+ABI:
+//JSON.parse()
+[ { "anonymous": false, "inputs": [ { "indexed": false, "internalType": "uint256", "name": "_itemIndex", "type": "uint256" }, { "indexed": false, "internalType": "uint256", "name": "_step", "type": "uint256" }, { "indexed": false, "internalType": "address", "name": "_address", "type": "address" } ], "name": "SupplyChainStep", "type": "event" }, { "inputs": [ { "internalType": "string", "name": "_identifier", "type": "string" }, { "internalType": "uint256", "name": "_priceInWei", "type": "uint256" } ], "name": "createItem", "outputs": [], "stateMutability": "nonpayable", "type": "function" }, { "inputs": [], "name": "isOwner", "outputs": [ { "internalType": "bool", "name": "", "type": "bool" } ], "stateMutability": "view", "type": "function" }, { "inputs": [ { "internalType": "uint256", "name": "", "type": "uint256" } ], "name": "items", "outputs": [ { "internalType": "contract Item", "name": "_item", "type": "address" }, { "internalType": "enum ItemManager.SupplyChainSteps", "name": "_step", "type": "uint8" }, { "internalType": "string", "name": "_identifier", "type": "string" } ], "stateMutability": "view", "type": "function" }, { "inputs": [ { "internalType": "uint256", "name": "_index", "type": "uint256" } ], "name": "triggerDelivery", "outputs": [], "stateMutability": "nonpayable", "type": "function" }, { "inputs": [ { "internalType": "uint256", "name": "_index", "type": "uint256" } ], "name": "triggerPayment", "outputs": [], "stateMutability": "payable", "type": "function" } ]
+[{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"_itemIndex\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"_step\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"address\",\"name\":\"_address\",\"type\":\"address\"}],\"name\":\"SupplyChainStep\",\"type\":\"event\"},{\"inputs\":[{\"internalType\":\"string\",\"name\":\"_identifier\",\"type\":\"string\"},{\"internalType\":\"uint256\",\"name\":\"_priceInWei\",\"type\":\"uint256\"}],\"name\":\"createItem\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"isOwner\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"name\":\"items\",\"outputs\":[{\"internalType\":\"contract Item\",\"name\":\"_item\",\"type\":\"address\"},{\"internalType\":\"enum ItemManager.SupplyChainSteps\",\"name\":\"_step\",\"type\":\"uint8\"},{\"internalType\":\"string\",\"name\":\"_identifier\",\"type\":\"string\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"_index\",\"type\":\"uint256\"}],\"name\":\"triggerDelivery\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"_index\",\"type\":\"uint256\"}],\"name\":\"triggerPayment\",\"outputs\":[],\"stateMutability\":\"payable\",\"type\":\"function\"}]
+web3.eth.abi.encodeFunctionCall(messageCall);
+
+CreateItem data part in transaction (or call like eth.call({to: ... from: ... data: ...}))
+0x8c551742 - 4 bytes of keccak256 hash code of the signature of the function
+"0x7465737432000000000000000000000000000000000000000000000000000000" - string to hex (32 byte) - "test2"
+"0x9c40000000000000000000000000000000000000000000000000000000000000" - uint to hex (32 byte) - 40000
+
+overall data: 
+0x8c5517420000000000000000000000000000000000000000000000000000000000000020000000000000000000000000000000000000000000000000000000000000002b54686520717569636b2062726f776e20666f78206a756d7073206f76657220746865206c617a7920646f670000000000000000000000000000000000000000009c40000000000000000000000000000000000000000000000000000000000000
+
+transaction example: 
+eth.sendTransaction({from: eth.accounts[0], to: "0x5596F7580f0cb60780b856D01f75ABA794C674F2", data: "0x8c5517420000000000000000000000000000000000000000000000000000000000000020000000000000000000000000000000000000000000000000000000000000002b54686520717569636b2062726f776e20666f78206a756d7073206f76657220746865206c617a7920646f670000000000000000000000000000000000000000009c40000000000000000000000000000000000000000000000000000000000000"})
+
+
+**Need sendRawTransaction version!!
+
+Alternative way
+
+var abi=JSON.parse("The abi of the contract")
+//Enter ABI. Same format as the previous section
+myContract = eth.contract(abi)
+//Create class
+contract = myContract.at(address)
+//Create a contract instance, here you must name the address of the deployed contract. The address has been previously save
+
+personal.unlockAccount(eth.coinbase)
+//Remember to unlock the account first
+contract.Function name.sendTransaction("Parameter 1","Parameter 2","parameter...",{from:"0xe473d288faf6c2d1812dbb759d7423605c7d1a58"})
+//The above is the method of calling transactionn type (gas class) function in geth console. The function name should be replaced with your own. The first part of the parentheses are the parameters of the function, which are listed separately. The address of the paying user (replaced with your own) should be written in the last item from in the braces.
+contract.Function name.call("Parameter 1","Parameter 2", "parameter...")
+//Call the method of the call type function, (do not pay the gas type).
+
+
+
+eth.sendTransaction({from:eth.accounts[0],to:eth.accounts[1], value:web3.toWei(0,"ether"), nonce: 13, gasPrice:10000000000})
